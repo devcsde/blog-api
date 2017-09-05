@@ -34,7 +34,15 @@ module.exports = {
         if(!isMatch) {
           throw new Error('Your password does not match.');
         }
-        return user;
+
+        let resp = {
+          user
+        };
+        resp.token = await JwtService.issue({
+          user,
+          expiresIn: '1d'
+        });
+        return resp;
       } catch (e) {
         throw e;
       }

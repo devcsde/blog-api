@@ -15,8 +15,7 @@ module.exports = {
     // extract category name from request object
     const categoryName = req.param('category_name'),
       title = req.param('title'),
-      content = req.param('content'),
-      userId = req.param('user_id');
+      content = req.param('content');
 
     // validate category name
     if (!categoryName) {
@@ -27,9 +26,6 @@ module.exports = {
     }
     if (!content) {
       return res.badRequest({err: 'invalid content'});
-    }
-    if (!userId) {
-      return res.badRequest({err: 'invalid user id'});
     }
     // create a new Category if it does not exist
 
@@ -43,7 +39,7 @@ module.exports = {
        if (catExists){          // create new post in existing Category
          const post = await Post.create({
            title, content,
-           _user: userId,
+           _user: req.token.id,
            _category: catExists.id
          });
          return {post, catExists};
@@ -53,7 +49,7 @@ module.exports = {
          });
          const post = await Post.create({
            title, content,
-           _user: userId,
+           _user: req.token.id,
            _category: category.id
          });
          return {post, category};
