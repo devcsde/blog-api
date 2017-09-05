@@ -15,9 +15,33 @@ module.exports = {
    * `AuthController.login()`
    */
   login: function (req, res) {
-    return res.json({
-      todo: 'login() is not implemented yet!'
-    });
+    // extract email & password
+    const email = req.param('email'),
+      password = req.param('password');
+    if (!email){
+      return res.badRequest({err: 'invalid email'})
+    }
+    if (!password) {
+      return res.badRequest({err: 'invalid password'})
+    }
+
+    const loginRequest = async () => {
+      try {
+        // find user by email
+        const user = await User.findOne({email});
+        // compare encrypted with supplied password
+        const isMatch = await User.checkPassword(password, user.password);
+        if(!isMatch) {
+          throw new Error('Your password does not match.');
+        }
+        return user;
+      } catch (e) {
+        throw e;
+      }
+    };
+    loginRequest()
+      .then(result => res.ok(result))
+      .catch(err => res.forbidden(err));
   },
 
   /**
@@ -47,14 +71,17 @@ module.exports = {
     const signupRequest = async () => {
       try {
         const emailExists = await User.find({email});
-        if (emailExists) {
+        if (emailExists.length > 0) {
           throw `${email} is already in the database.`;
         }
+
+        const encPassword = await UtilService.encryptPassword(password);
+
         const user = await User.create({
           firstName,
           lastName,
           email,
-          password
+          password: encPassword
         });
         return {user};
       }
@@ -67,4 +94,3 @@ module.exports = {
       .catch(err => res.notFound(err))
   }
 };
-

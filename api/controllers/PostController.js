@@ -86,7 +86,7 @@ module.exports = {
         if(post){
           return {post};
         } else {
-          return new Error("cannot find post");
+          throw "cannot find post";
         }
       } catch (e) {
         throw e;
@@ -110,7 +110,7 @@ module.exports = {
         if (posts) {
           return {posts};
         } else {
-          return new Error("There are no posts");
+          throw "There are no posts";
         }
       } catch (e) {
         throw e;
@@ -172,7 +172,7 @@ module.exports = {
         if (post.length > 0) {
           return {post};
         } else {
-          return new Error("Post not found");
+          throw "Post not found";
         }
       } catch (e) {
         throw e;
