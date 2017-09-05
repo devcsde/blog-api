@@ -5,12 +5,13 @@
   "description": "Blog",
   "keywords": [],
   "dependencies": {
+    "email-validator": "^1.1.1",
     "include-all": "^1.0.0",
     "rc": "1.0.1",
     "sails": "~0.12.13",
     "sails-disk": "~0.10.9",
-    "sails-mongo": "^0.12.2",
-    "sails-hook-autoreload": "^0.14.1"
+    "sails-hook-autoreload": "^0.14.1",
+    "sails-mongo": "^0.12.3"
   },
   "scripts": {
     "debug": "node debug app.js",

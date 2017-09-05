@@ -50,6 +50,8 @@ module.exports.routes = {
   'GET /posts' : 'PostController.findAll',
   'GET /posts/:id' : 'PostController.findOne',
   'PUT /posts/:id' : 'PostController.update',
-  'DELETE /posts/:id' : 'PostController.delete'
+  'DELETE /posts/:id' : 'PostController.delete',
+  'POST /signup' : 'AuthController.signup',
+  'POST /login' : 'AuthController.login'
 
 };
